@@ -1,0 +1,82 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+---
+name: QBasic
+scopeName: source.qbasic
+fileTypes: [bas, qb]
+uuid: e7de52b7-8378-4396-848e-e9da04e24ddb
+
+patterns:
+
+- comment: Comment
+  name: comment.line.qbasic
+  match: (').*
+  captures:
+    '1': { name: punctuation.definition.comment.qbasic }
+
+- comment: Delimiter
+  name: meta.delimiter.object.qbasic
+  match: '[,:;]'
+
+- comment: Keyword
+  name: keyword.control.qbasic
+  match: \b((END )?IF|(END )?SELECT|(RESUME )?NEXT|CASE|CLOSE|DO|ELSE|FOR|GOSUB|GOTO|LOOP|ON|OPEN|RETURN|THEN|TO|UNTIL|WHILE)\b
+
+- comment: Operator
+  name: keyword.operator.qbasic
+  match: (\+|=|<|>|<>|AND|OR)
+
+- comment: Function
+  name: support.function.qbasic
+  match: \b(CHR\$|CLS|COLOR|DATA|INPUT|INT|KEY|LEN|LINE|LOCATE|PALETTE|PLAY|PRINT|PSET|PUT|REDIM|RND|SCREEN|TAB|VIEW)\b
+
+- comment: Numeric
+  name: constant.numeric.qbasic
+  match: \b(\d(\.\d)?)+
+
+- comment: Global
+  name: constant.global.qbasic
+  match: \b\w+\$
+
+- comment: SUB
+  name: meta.function.qbasic
+  match: '^(\w+):'
+  captures:
+    '1': { name: entity.name.function.qbasic }
+
+- comment: Brace, round
+  name: meta.brace.round.qbasic
+  match: '[\(\)]'
+
+- comment: Brace, curly
+  name: meta.brace.curly.qbasic
+  match: '[\{\}]'
+
+- comment: Array
+  name: other.array.qbasic
+  begin: (\w+\()
+  beginCaptures:
+    '1': { name: constant.array.qbasic }
+  end: (\))
+  endCaptures:
+    '1': { name: constant.array.qbasic }
+  patterns:
+  - include: $self
+
+- comment: String, double-quoted
+  name: string.quoted.double.qbasic
+  begin: (")
+  beginCaptures:
+    '1': { name: punctuation.definition.string.begin.qbasic }
+  end: (")
+  endCaptures:
+    '1': { name: punctuation.definition.string.begin.qbasic }
+  patterns:
+  - comment: Escaped double-quote inside double-quoted string
+    name: constant.character.escape.qbasic
+    match: (\\")
+  - comment: Single quote inside double-quoted string
+    name: other.qbasic
+    match: (')
+  - include: $self
+
+...
